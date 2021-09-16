@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/counteractive.iml" filepath="$PROJECT_DIR$/.idea/counteractive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/rrc_example_package.iml" filepath="$PROJECT_DIR$/.idea/rrc_example_package.iml" />
     </modules>
   </component>
 </project>

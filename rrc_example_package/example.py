@@ -163,15 +163,18 @@ class PointAtDieGoalPositionsPolicy:
                         fix2[i, j] = sum(sum(test2[i * 18:(i + 1) * 18, j * 18:(j + 1) * 18] / 255))
 
 
-                mean1 = np.zeros([15, 15])
-                for i in range(15):
-                    for j in range(15):
-                        mean1[i, j] = sum(sum(fix1[i:i+2,j:j+2]))
+                # mean1 = np.zeros([15, 15])
+                # for i in range(15):
+                #     for j in range(15):
+                #         mean1[i, j] = sum(sum(fix1[i:i+3,j:j+3]))
+                #
+                # mean2 = np.zeros([15, 15])
+                # for i in range(15):
+                #     for j in range(15):
+                #         mean2[i, j] = sum(sum(fix2[i:i+3,j:j+3]))
 
-                mean2 = np.zeros([15, 15])
-                for i in range(15):
-                    for j in range(15):
-                        mean2[i, j] = sum(sum(fix2[i:i+2,j:j+2]))
+                mean1 = fix1
+                mean2 = fix2
                 # ipdb.set_trace()
                 p = 0
                 while p == 0:
@@ -181,20 +184,22 @@ class PointAtDieGoalPositionsPolicy:
                     max2 = mean2.argmax()
                     ind2 = np.unravel_index(max2, mean2.shape)
 
-                    if (ind1[0] - ind2[0]) <= 5 and (ind1[1] - ind2[1]) <= 5 and ind1[0] != self.his_point[0]:
+                    if (ind1[0] - ind2[0]) <= 5 and (ind1[1] - ind2[1]) <= 5 and abs(ind1[0] - self.his_point[0])>1:
                         p = 1
 
                     if random.random() < 0.5:
                         mean1[ind1[0],ind1[1]] = 0
                     else:
                         mean2[ind2[0],ind2[1]] = 0
+                    self.his_point[0] = ind1[0]
 
 
                 result1 = (test1 + 0.5 * test2) / 255
                 self.point_x = [ind1[0],ind1[1]]
                 self.point_y = [ind2[0],ind2[1]]
+                # print(self.point_x, self.point_y)
                 self.his_point = copy.deepcopy(self.point_x)
-                print(self.point_x, self.point_y)
+
 
 
             point_x = self.point_x
